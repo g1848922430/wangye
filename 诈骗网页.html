@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>安全登录 - 重要系统</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background-color: #fff;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 320px;
+        }
+        .login-container h1 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 24px;
+        }
+        .login-container label {
+            display: block;
+            text-align: left;
+            margin-bottom: 5px;
+            color: #555;
+            font-size: 14px;
+        }
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: calc(100% - 22px); /* Account for padding */
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .login-container button:hover {
+            background-color: #0056b3;
+        }
+        .phished-message-container {
+            display: none; /* Initially hidden */
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 400px;
+        }
+        .phished-message-container h2 {
+            color: #d9534f; /* Reddish color for warning */
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+        .phished-message-container p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        .phished-message-container strong {
+            color: #721c24;
+        }
+        .phished-message-container ul {
+            text-align: left;
+            margin-top: 15px;
+            padding-left: 20px;
+        }
+        .phished-message-container li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loginFormContainer" class="login-container">
+        <h1>请登录您的账户</h1>
+        <form id="fakeLoginForm">
+            <div>
+                <label for="username">账户名/邮箱:</label>
+                <input type="text" id="username" name="username" placeholder="例如：user@example.com" required>
+            </div>
+            <div>
+                <label for="password">密码:</label>
+                <input type="password" id="password" name="password" placeholder="请输入密码" required>
+            </div>
+            <button type="submit">确定登录</button>
+        </form>
+        <p style="font-size:12px; color:#777; margin-top:15px;">
+            这是一个演示页面，请输入任意内容体验。
+        </p>
+    </div>
+
+    <div id="phishedMessage" class="phished-message-container">
+        <h2>你被“钓鱼”了！</h2>
+        <p>这是一个<strong>模拟的虚假登录页面</strong>。</p>
+        <p>您刚才输入的信息<strong>并没有被发送到任何地方</strong>，这只是一个演示。</p>
+        <p>在真实的网络攻击中，如果您在这样的页面输入了真实的账号和密码：</p>
+        <ul>
+            <li>您的账户凭据（用户名和密码）会被黑客窃取。</li>
+            <li>黑客可能利用这些信息登录您的真实账户，盗取资金、个人信息，或进行其他恶意活动。</li>
+            <li>您的设备也可能被植入恶意软件。</li>
+        </ul>
+        <p><strong>如何防范？</strong></p>
+        <ul>
+            <li><strong>检查网址 (URL)：</strong> 确保地址栏的网址是官方、正确的，特别是主域名部分。注意拼写错误或奇怪的字符。</li>
+            <li><strong>警惕来源不明的链接：</strong> 不要轻易点击邮件、短信或社交媒体中可疑的登录链接。</li>
+            <li><strong>查看安全锁 (HTTPS)：</strong> 确保网站使用了 HTTPS (地址栏有小锁图标)，但这也不是绝对安全的保证，因为钓鱼网站也可能使用 HTTPS。</li>
+            <li><strong>开启双因素认证 (2FA)：</strong> 为您的重要账户开启2FA，即使密码泄露，黑客也难以登录。</li>
+        </ul>
+        <p><strong>请时刻保持警惕，保护您的账户安全！</strong></p>
+    </div>
+
+    <script>
+        document.getElementById('fakeLoginForm').addEventListener('submit', function(event) {
+            // 1. 阻止表单的默认提交行为 (这很重要，防止页面刷新或尝试发送数据)
+            event.preventDefault();
+
+            // 2. 获取输入的账号和密码 (虽然在这个演示中我们不处理它们，但可以获取)
+            // var username = document.getElementById('username').value;
+            // var password = document.getElementById('password').value;
+            // console.log("模拟捕获 - 用户名:", username, "密码:", password); // 可以在控制台看到
+
+            // 3. 隐藏登录框
+            document.getElementById('loginFormContainer').style.display = 'none';
+
+            // 4. 显示“你被骗了”的消息
+            document.getElementById('phishedMessage').style.display = 'block';
+
+            // 5. (可选) 可以在消息显示一段时间后做些什么，比如提供一个返回按钮，
+            // 但对于这个演示，保持消息显示就足够了。
+        });
+    </script>
+
+</body>
+</html>
